@@ -1,0 +1,17 @@
+{% extends "base.html" %}{% block content %}
+<div class="page-head"><div><h1>Dashboard</h1><p class="muted">Welcome to your supermarket workspace.</p></div></div>
+<div class="stats">
+<div class="stat"><span>Total products</span><strong>{{ product_count }}</strong></div>
+<div class="stat"><span>Low-stock products</span><strong>{{ low_stock }}</strong></div>
+<div class="stat"><span>Total sales</span><strong>₹{{ '%.2f'|format(sales_total) }}</strong></div>
+</div>
+<h2>Quick actions</h2><div class="quick-grid">
+<a class="quick" href="{{ url_for('products') }}">🛍️<b>Browse products</b><small>Search items and prices</small></a>
+{% if current_role == 'customer' %}<a class="quick" href="{{ url_for('cart') }}">🛒<b>Shopping cart</b><small>Update items and checkout</small></a>{% endif %}
+{% if current_role in ['manager','vendor','sales_clerk'] %}<a class="quick" href="{{ url_for('inventory') }}">📦<b>Inventory</b><small>View stock information</small></a>{% endif %}
+{% if current_role in ['manager','vendor'] %}<a class="quick" href="{{ url_for('supply') }}">🚚<b>Receive stock</b><small>Record new supply</small></a>{% endif %}
+{% if current_role == 'manager' %}<a class="quick" href="{{ url_for('reports') }}">📊<b>Sales reports</b><small>View sales statistics</small></a>{% endif %}
+</div>
+<h2>Recent sales</h2><div class="table-wrap"><table><tr><th>Bill</th><th>Customer</th><th>Total</th><th>Date</th></tr>
+{% for s in recent_sales %}<tr><td>#{{ s.id }}</td><td>{{ s.customer_name or 'Walk-in customer' }}</td><td>₹{{ '%.2f'|format(s.total) }}</td><td>{{ s.created_at }}</td></tr>{% else %}<tr><td colspan="4">No sales yet.</td></tr>{% endfor %}</table></div>
+{% endblock %}

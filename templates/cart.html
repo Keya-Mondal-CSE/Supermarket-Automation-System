@@ -1,0 +1,14 @@
+{% extends "base.html" %}{% block content %}
+<h1>Shopping cart</h1>
+{% if items %}
+<form method="post" action="{{ url_for('update_cart') }}"><div class="table-wrap"><table>
+<tr><th>Item</th><th>Price</th><th>Quantity</th><th>Subtotal</th></tr>
+{% for item in items %}<tr><td>{{ item.product.name }}</td><td>₹{{ '%.2f'|format(item.product.price) }}</td>
+<td><input class="qty" type="number" min="0" max="{{ item.product.stock }}" name="qty_{{ item.product.id }}" value="{{ item.quantity }}"></td>
+<td>₹{{ '%.2f'|format(item.subtotal) }}</td></tr>{% endfor %}
+</table></div><button class="btn secondary">Update cart (0 quantity removes item)</button></form>
+<div class="checkout"><h2>Total: ₹{{ '%.2f'|format(total) }}</h2>
+<form method="post" action="{{ url_for('checkout') }}"><label>Payment method</label><select name="payment_method"><option>Cash</option><option>UPI (demo)</option><option>Card (demo)</option></select><button class="btn">Confirm order & generate bill</button></form>
+<p class="muted tiny">UPI and Card are demonstration selections only; no real payment is processed.</p></div>
+{% else %}<div class="empty">Your cart is empty. <a href="{{ url_for('products') }}">Browse products</a>.</div>{% endif %}
+{% endblock %}

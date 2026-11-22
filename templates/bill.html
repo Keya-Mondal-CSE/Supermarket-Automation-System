@@ -1,0 +1,9 @@
+{% extends "base.html" %}{% block content %}
+<div class="bill">
+<div class="bill-head"><div><h1>SAS Supermarket</h1><p>Sales invoice / Bill</p></div><div class="right"><h2>Bill #{{ sale.id }}</h2><p>{{ sale.created_at }}</p></div></div>
+<p><b>Customer:</b> {{ sale.customer_name or 'Walk-in customer' }}<br><b>Payment:</b> {{ sale.payment_method }}</p>
+<div class="table-wrap"><table><tr><th>Code</th><th>Item</th><th>Qty</th><th>Rate</th><th>Amount</th></tr>
+{% for line in lines %}<tr><td>{{ line.code }}</td><td>{{ line.name }}</td><td>{{ line.quantity }}</td><td>₹{{ '%.2f'|format(line.unit_price) }}</td><td>₹{{ '%.2f'|format(line.subtotal) }}</td></tr>{% endfor %}
+<tr><th colspan="4" class="right">Grand total</th><th>₹{{ '%.2f'|format(sale.total) }}</th></tr></table></div>
+<p class="center">Thank you for shopping with us!</p><button class="btn no-print" onclick="window.print()">Print bill</button>
+</div>{% endblock %}

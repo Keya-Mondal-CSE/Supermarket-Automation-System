@@ -1,0 +1,8 @@
+{% extends "base.html" %}{% block content %}
+<div class="page-head"><div><h1>Products</h1><p class="muted">Browse and search available supermarket items.</p></div></div>
+<form class="search" method="get"><input name="q" value="{{ search }}" placeholder="Search by product, code or category"><button class="btn">Search</button></form>
+<div class="product-grid">{% for p in products %}
+<div class="product-card"><div class="product-icon">🛍️</div><span class="pill">{{ p.category }}</span><h3>{{ p.name }}</h3><p class="muted">Item code: {{ p.code }}</p><strong class="price">₹{{ '%.2f'|format(p.price) }}</strong><p class="muted">{{ p.stock }} in stock</p>
+{% if current_role == 'customer' %}<form method="post" action="{{ url_for('add_to_cart',product_id=p.id) }}"><button class="btn full" {% if p.stock == 0 %}disabled{% endif %}>Add to cart</button></form>{% endif %}
+</div>{% else %}<p>No products found.</p>{% endfor %}</div>
+{% endblock %}

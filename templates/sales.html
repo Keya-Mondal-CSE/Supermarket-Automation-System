@@ -1,0 +1,4 @@
+{% extends "base.html" %}{% block content %}<h1>Sales transactions</h1><div class="table-wrap"><table>
+<tr><th>Bill no.</th><th>Customer</th><th>Total</th><th>Payment</th><th>Date</th><th>Bill</th></tr>
+{% for s in sales %}<tr><td>#{{ s.id }}</td><td>{{ s.customer_name or 'Walk-in customer' }}</td><td>₹{{ '%.2f'|format(s.total) }}</td><td>{{ s.payment_method }}</td><td>{{ s.created_at }}</td><td><a href="{{ url_for('bill',sale_id=s.id) }}">View bill</a></td></tr>{% else %}<tr><td colspan="6">No sales recorded.</td></tr>{% endfor %}
+</table></div>{% endblock %}

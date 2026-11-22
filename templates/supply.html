@@ -1,0 +1,9 @@
+{% extends "base.html" %}{% block content %}
+<h1>Supply new stock</h1><p class="muted">Record vendor deliveries. Received quantity is added to inventory.</p>
+<div class="panel"><form method="post" class="form-grid">
+<select name="product_id" required><option value="">Select product</option>{% for p in products %}<option value="{{ p.id }}">{{ p.code }} — {{ p.name }} (current: {{ p.stock }})</option>{% endfor %}</select>
+<input type="number" name="quantity" min="1" placeholder="Quantity received" required><input name="note" placeholder="Delivery note / order reference"><button class="btn">Receive stock</button>
+</form></div>
+<h2>Supply history</h2><div class="table-wrap"><table><tr><th>Date</th><th>Product</th><th>Vendor</th><th>Quantity</th><th>Note</th></tr>
+{% for h in history %}<tr><td>{{ h.created_at }}</td><td>{{ h.product_name }}</td><td>{{ h.vendor_name or 'Manager' }}</td><td>+{{ h.quantity }}</td><td>{{ h.note }}</td></tr>{% else %}<tr><td colspan="5">No supply history yet.</td></tr>{% endfor %}</table></div>
+{% endblock %}

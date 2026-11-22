@@ -1,0 +1,16 @@
+{% extends "base.html" %}{% block content %}
+<h1>Sales clerk checkout</h1><p class="muted">Enter an item code and quantity to build a customer's bill.</p>
+<div class="panel"><form method="post" class="form-grid">
+<input name="code" placeholder="Item code e.g. G001" required>
+<input type="number" name="quantity" min="1" placeholder="Quantity" required>
+<button class="btn">Add item</button>
+</form>
+<p class="tiny muted">Available item codes: {% for p in products %}{{ p.code }} ({{ p.stock }} available){% if not loop.last %}, {% endif %}{% endfor %}</p>
+</div>
+{% if items %}
+<h2>Current transaction</h2><div class="table-wrap"><table><tr><th>Item</th><th>Qty</th><th>Unit price</th><th>Subtotal</th></tr>
+{% for item in items %}<tr><td>{{ item.product.name }}</td><td>{{ item.quantity }}</td><td>₹{{ '%.2f'|format(item.product.price) }}</td><td>₹{{ '%.2f'|format(item.subtotal) }}</td></tr>{% endfor %}
+<tr><th colspan="3" class="right">Total</th><th>₹{{ '%.2f'|format(total) }}</th></tr></table></div>
+<form method="post" action="{{ url_for('checkout') }}" class="panel"><label>Payment method</label><select name="payment_method"><option>Cash</option><option>UPI (demo)</option><option>Card (demo)</option></select><button class="btn">Complete checkout & generate bill</button></form>
+{% else %}<div class="empty">No items in this transaction yet.</div>{% endif %}
+{% endblock %}

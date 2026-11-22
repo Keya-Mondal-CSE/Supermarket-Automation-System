@@ -1,0 +1,13 @@
+{% extends "base.html" %}{% block title %}Login · SAS{% endblock %}
+{% block content %}
+<section class="auth-card">
+<h1>Welcome back</h1><p class="muted">Sign in to the Supermarket Automation System.</p>
+<form method="post">
+<label>Email</label><input type="email" name="email" required placeholder="you@example.com">
+<label>Password</label><input type="password" name="password" required>
+<button class="btn full">Login</button>
+</form>
+<p class="center">New customer? <a href="{{ url_for('register') }}">Create an account</a></p>
+<div class="demo"><b>Demo accounts (password: 1234)</b><br>Customer: customer@sas.com<br>Sales clerk: clerk@sas.com<br>Vendor: vendor@sas.com<br>Manager: manager@sas.com</div>
+</section>
+{% endblock %}
