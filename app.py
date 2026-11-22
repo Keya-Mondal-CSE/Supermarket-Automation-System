@@ -6,7 +6,8 @@ import sqlite3
 from pathlib import Path
 
 app = Flask(__name__)
-app.secret_key = "change-this-secret-key-before-deployment"
+import os
+app.secret_key = os.environ.get("SECRET_KEY", "local-development-key")
 DB_PATH = Path(__file__).with_name("sas.db")
 
 ROLES = ("customer", "sales_clerk", "vendor", "manager")
